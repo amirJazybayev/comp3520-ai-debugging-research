@@ -1,0 +1,17 @@
+[
+  {"id": "b01", "class": "BulkPricing", "category": "boundary / relational operator", "fault": "Discount applied for quantity > 10 instead of >= 10."},
+  {"id": "b02", "class": "Pagination", "category": "arithmetic / integer division", "fault": "Integer division drops the partial last page."},
+  {"id": "b03", "class": "TextUtils", "category": "null handling", "fault": "No null check (NullPointerException); trim() also ignores Unicode whitespace."},
+  {"id": "b04", "class": "RingBuffer", "category": "array index / wrap-around", "fault": "Tail index not taken modulo capacity (ArrayIndexOutOfBoundsException)."},
+  {"id": "b05", "class": "LeapYear", "category": "missing condition", "fault": "Divisible-by-400 rule missing."},
+  {"id": "b06", "class": "BinarySearch", "category": "loop condition / off-by-one", "fault": "Loop uses low < high and misses the last candidate."},
+  {"id": "b07", "class": "Statistics", "category": "missing step", "fault": "Copy of the input is never sorted before taking the middle value."},
+  {"id": "b08", "class": "PasswordPolicy", "category": "logical operator", "fault": "Digit and uppercase requirements combined with || instead of &&."},
+  {"id": "b09", "class": "Inventory", "category": "missing validation", "fault": "No insufficient-stock check; stock can go negative."},
+  {"id": "b10", "class": "TemperatureConverter", "category": "operator precedence", "fault": "Parentheses missing around (fahrenheit - 32)."},
+  {"id": "b11", "class": "WordCounter", "category": "API misuse (String.split)", "fault": "split(\" \") counts empty tokens and ignores tabs/newlines."},
+  {"id": "b12", "class": "Luhn", "category": "algorithm direction", "fault": "Digits doubled counting from the left instead of the right."},
+  {"id": "b13", "class": "CsvLine", "category": "API misuse (String.split)", "fault": "split(\",\") silently drops trailing empty fields."},
+  {"id": "b14", "class": "RateLimiter", "category": "state reset", "fault": "Request counter not reset when a new window starts."},
+  {"id": "b15", "class": "SemVer", "category": "wrong comparison semantics", "fault": "Versions compared lexicographically as strings."}
+]

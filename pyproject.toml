@@ -1,0 +1,10 @@
+[project]
+name = "comp3520-ai-repair"
+version = "1.0.0"
+description = "Does failure context improve AI-generated bug fixes? COMP 3520 research harness"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = ["integration: needs Maven and a JDK (runs the real benchmark)"]

@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  harness-unit-tests:
+    name: Harness unit tests (Python)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements-dev.txt
+      - name: Run pytest
+        run: pytest -v -m "not integration" --junitxml=reports/pytest.xml
+      - name: Publish test table
+        if: always()
+        run: python -m repair.junit_summary "Harness unit tests (pytest)" reports/pytest.xml >> "$GITHUB_STEP_SUMMARY"
+
+  benchmark:
+    name: Benchmark (JUnit + validity + integration)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements-dev.txt
+      - name: Reference implementations pass all visible and hidden JUnit tests
+        working-directory: benchmark
+        run: mvn -B test
+      - name: Publish JUnit table
+        if: always()
+        run: python -m repair.junit_summary "Benchmark JUnit tests (reference implementations)" benchmark/target/surefire-reports/TEST-*.xml >> "$GITHUB_STEP_SUMMARY"
+      - name: Benchmark validity (every buggy version compiles and fails its visible test)
+        run: python -m repair.experiment validate
+      - name: Integration tests (harness + real Maven build)
+        run: pytest -v -m integration --junitxml=reports/integration.xml
+      - name: Publish integration table
+        if: always()
+        run: python -m repair.junit_summary "Integration tests (pytest + Maven)" reports/integration.xml >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-reports
+          path: |
+            benchmark/target/surefire-reports/
+            reports/

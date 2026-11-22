@@ -1,0 +1,10 @@
+target/
+__pycache__/
+.pytest_cache/
+reports/
+*.pyc
+.env
+.venv/
+.idea/
+.vscode/
+*.zip
