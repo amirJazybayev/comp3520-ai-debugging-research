@@ -151,7 +151,7 @@ def main(argv=None):
         with review.open("w", newline="", encoding="utf-8") as fh:
             w = csv.writer(fh)
             w.writerow(["bug", "condition", "repeat", "patch", "hidden_pass",
-                        "reviewer1_correct(Y/N)", "reviewer2_correct(Y/N)", "notes"])
+                        "pass1_correct(Y/N)", "pass2_correct(Y/N)", "notes"])
             for r in rows:
                 if r["plausible"]:
                     patch = f"results/runs/{r['run_id']}/patches/{r['bug']}_{r['condition']}_r{r['repeat']}_a{r['attempts']}.java"

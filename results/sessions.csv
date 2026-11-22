@@ -1,0 +1,91 @@
+run_id,model,bug,category,condition,repeat,attempts,first_compiled,compiled_attempts,plausible,correct,first_attempt_correct,changed_lines,tokens,llm_seconds
+20261122T070748Z,qwen/qwen3.8-27b,b01,boundary / relational operator,baseline,1,1,True,1,True,True,True,2,642,0.55
+20261122T070748Z,qwen/qwen3.8-27b,b01,boundary / relational operator,baseline,2,1,True,1,True,True,True,2,642,15.7
+20261122T070748Z,qwen/qwen3.8-27b,b01,boundary / relational operator,baseline,3,1,True,1,True,True,True,2,642,5.53
+20261122T070748Z,qwen/qwen3.8-27b,b01,boundary / relational operator,diagnostics,1,1,True,1,True,True,True,2,726,6.55
+20261122T070748Z,qwen/qwen3.8-27b,b01,boundary / relational operator,diagnostics,2,1,True,1,True,True,True,2,726,75.85
+20261122T070748Z,qwen/qwen3.8-27b,b01,boundary / relational operator,diagnostics,3,1,True,1,True,True,True,2,726,7.15
+20261122T070748Z,qwen/qwen3.8-27b,b02,arithmetic / integer division,baseline,1,1,True,1,True,True,True,5,562,0.42
+20261122T070748Z,qwen/qwen3.8-27b,b02,arithmetic / integer division,baseline,2,1,True,1,True,True,True,11,629,5.7
+20261122T070748Z,qwen/qwen3.8-27b,b02,arithmetic / integer division,baseline,3,1,True,1,True,True,True,8,622,0.53
+20261122T070748Z,qwen/qwen3.8-27b,b02,arithmetic / integer division,diagnostics,1,1,True,1,True,True,True,8,726,0.7
+20261122T070748Z,qwen/qwen3.8-27b,b02,arithmetic / integer division,diagnostics,2,1,True,1,True,False,False,2,617,5.43
+20261122T070748Z,qwen/qwen3.8-27b,b02,arithmetic / integer division,diagnostics,3,1,True,1,True,True,True,8,692,0.63
+20261122T070748Z,qwen/qwen3.8-27b,b03,null handling,baseline,1,1,True,1,True,False,False,3,396,0.34
+20261122T070748Z,qwen/qwen3.8-27b,b03,null handling,baseline,2,1,True,1,True,True,True,10,434,0.32
+20261122T070748Z,qwen/qwen3.8-27b,b03,null handling,baseline,3,1,True,1,True,True,True,10,434,5.54
+20261122T070748Z,qwen/qwen3.8-27b,b03,null handling,diagnostics,1,1,True,1,True,False,False,3,470,0.3
+20261122T070748Z,qwen/qwen3.8-27b,b03,null handling,diagnostics,2,1,True,1,True,False,False,3,470,0.5
+20261122T070748Z,qwen/qwen3.8-27b,b03,null handling,diagnostics,3,1,True,1,True,False,False,3,470,15.41
+20261122T070748Z,qwen/qwen3.8-27b,b04,array index / wrap-around,baseline,1,1,True,1,True,True,True,3,914,0.79
+20261122T070748Z,qwen/qwen3.8-27b,b04,array index / wrap-around,baseline,2,1,True,1,True,True,True,3,914,35.79
+20261122T070748Z,qwen/qwen3.8-27b,b04,array index / wrap-around,baseline,3,1,True,1,True,True,True,3,914,0.84
+20261122T070748Z,qwen/qwen3.8-27b,b04,array index / wrap-around,diagnostics,1,1,True,1,True,True,True,3,999,0.59
+20261122T070748Z,qwen/qwen3.8-27b,b04,array index / wrap-around,diagnostics,2,1,True,1,True,True,True,3,999,0.69
+20261122T070748Z,qwen/qwen3.8-27b,b04,array index / wrap-around,diagnostics,3,1,True,1,True,True,True,3,999,15.71
+20261122T070748Z,qwen/qwen3.8-27b,b05,missing condition,baseline,1,1,True,1,True,True,True,2,549,6.91
+20261122T070748Z,qwen/qwen3.8-27b,b05,missing condition,baseline,2,1,True,1,True,True,True,2,549,0.76
+20261122T070748Z,qwen/qwen3.8-27b,b05,missing condition,baseline,3,1,True,1,True,True,True,2,549,0.45
+20261122T070748Z,qwen/qwen3.8-27b,b05,missing condition,diagnostics,1,1,True,1,True,True,True,2,627,0.47
+20261122T070748Z,qwen/qwen3.8-27b,b05,missing condition,diagnostics,2,1,True,1,True,True,True,2,627,0.4
+20261122T070748Z,qwen/qwen3.8-27b,b05,missing condition,diagnostics,3,1,True,1,True,True,True,2,627,5.54
+20261122T070748Z,qwen/qwen3.8-27b,b06,loop condition / off-by-one,baseline,1,1,True,1,True,True,True,2,671,5.67
+20261122T070748Z,qwen/qwen3.8-27b,b06,loop condition / off-by-one,baseline,2,1,True,1,True,True,True,2,671,0.63
+20261122T070748Z,qwen/qwen3.8-27b,b06,loop condition / off-by-one,baseline,3,1,True,1,True,True,True,2,671,6.02
+20261122T070748Z,qwen/qwen3.8-27b,b06,loop condition / off-by-one,diagnostics,1,1,True,1,True,True,True,2,741,5.66
+20261122T070748Z,qwen/qwen3.8-27b,b06,loop condition / off-by-one,diagnostics,2,1,True,1,True,True,True,2,741,0.47
+20261122T070748Z,qwen/qwen3.8-27b,b06,loop condition / off-by-one,diagnostics,3,1,True,1,True,True,True,2,741,5.67
+20261122T070748Z,qwen/qwen3.8-27b,b07,missing step,baseline,1,1,True,1,True,True,True,1,672,5.51
+20261122T070748Z,qwen/qwen3.8-27b,b07,missing step,baseline,2,1,True,1,True,True,True,1,672,75.72
+20261122T070748Z,qwen/qwen3.8-27b,b07,missing step,baseline,3,1,True,1,True,True,True,1,672,5.7
+20261122T070748Z,qwen/qwen3.8-27b,b07,missing step,diagnostics,1,1,True,1,True,True,True,1,750,15.57
+20261122T070748Z,qwen/qwen3.8-27b,b07,missing step,diagnostics,2,1,True,1,True,True,True,1,750,0.8
+20261122T070748Z,qwen/qwen3.8-27b,b07,missing step,diagnostics,3,1,True,1,True,True,True,1,750,5.54
+20261122T070748Z,qwen/qwen3.8-27b,b08,logical operator,baseline,1,1,True,1,True,True,True,2,588,0.38
+20261122T070748Z,qwen/qwen3.8-27b,b08,logical operator,baseline,2,1,True,1,True,True,True,2,588,0.43
+20261122T070748Z,qwen/qwen3.8-27b,b08,logical operator,baseline,3,1,True,1,True,True,True,2,588,5.46
+20261122T070748Z,qwen/qwen3.8-27b,b08,logical operator,diagnostics,1,1,True,1,True,True,True,2,667,5.45
+20261122T070748Z,qwen/qwen3.8-27b,b08,logical operator,diagnostics,2,1,True,1,True,True,True,2,667,0.98
+20261122T070748Z,qwen/qwen3.8-27b,b08,logical operator,diagnostics,3,1,True,1,True,True,True,2,667,5.6
+20261122T070748Z,qwen/qwen3.8-27b,b09,missing validation,baseline,1,1,True,1,True,True,True,3,1176,5.93
+20261122T070748Z,qwen/qwen3.8-27b,b09,missing validation,baseline,2,1,True,1,True,True,True,3,1176,6.22
+20261122T070748Z,qwen/qwen3.8-27b,b09,missing validation,baseline,3,1,True,1,True,True,True,3,1172,6.13
+20261122T070748Z,qwen/qwen3.8-27b,b09,missing validation,diagnostics,1,1,True,1,True,True,True,3,1257,36.01
+20261122T070748Z,qwen/qwen3.8-27b,b09,missing validation,diagnostics,2,1,True,1,True,True,True,3,1257,5.9
+20261122T070748Z,qwen/qwen3.8-27b,b09,missing validation,diagnostics,3,1,True,1,True,True,True,3,1257,36.81
+20261122T070748Z,qwen/qwen3.8-27b,b10,operator precedence,baseline,1,1,True,1,True,True,True,2,611,15.62
+20261122T070748Z,qwen/qwen3.8-27b,b10,operator precedence,baseline,2,1,True,1,True,True,True,2,611,35.77
+20261122T070748Z,qwen/qwen3.8-27b,b10,operator precedence,baseline,3,1,True,1,True,True,True,2,611,5.47
+20261122T070748Z,qwen/qwen3.8-27b,b10,operator precedence,diagnostics,1,1,True,1,True,True,True,2,702,5.6
+20261122T070748Z,qwen/qwen3.8-27b,b10,operator precedence,diagnostics,2,1,True,1,True,True,True,2,702,0.6
+20261122T070748Z,qwen/qwen3.8-27b,b10,operator precedence,diagnostics,3,1,True,1,True,True,True,2,702,15.64
+20261122T070748Z,qwen/qwen3.8-27b,b11,API misuse (String.split),baseline,1,1,True,1,True,True,True,15,546,0.49
+20261122T070748Z,qwen/qwen3.8-27b,b11,API misuse (String.split),baseline,2,1,True,1,True,True,True,15,546,136.06
+20261122T070748Z,qwen/qwen3.8-27b,b11,API misuse (String.split),baseline,3,1,True,1,True,True,True,15,546,0.55
+20261122T070748Z,qwen/qwen3.8-27b,b11,API misuse (String.split),diagnostics,1,2,True,2,True,True,False,15,1424,21.25
+20261122T070748Z,qwen/qwen3.8-27b,b11,API misuse (String.split),diagnostics,2,2,True,2,True,True,False,15,1424,0.83
+20261122T070748Z,qwen/qwen3.8-27b,b11,API misuse (String.split),diagnostics,3,1,True,1,True,True,True,15,619,6.09
+20261122T070748Z,qwen/qwen3.8-27b,b12,algorithm direction,baseline,1,1,True,1,True,True,True,4,903,1.03
+20261122T070748Z,qwen/qwen3.8-27b,b12,algorithm direction,baseline,2,1,True,1,True,True,True,4,895,0.87
+20261122T070748Z,qwen/qwen3.8-27b,b12,algorithm direction,baseline,3,1,True,1,True,True,True,4,904,5.7
+20261122T070748Z,qwen/qwen3.8-27b,b12,algorithm direction,diagnostics,1,1,True,1,True,True,True,4,968,5.9
+20261122T070748Z,qwen/qwen3.8-27b,b12,algorithm direction,diagnostics,2,1,True,1,True,True,True,5,996,0.66
+20261122T070748Z,qwen/qwen3.8-27b,b12,algorithm direction,diagnostics,3,1,True,1,True,True,True,5,987,0.68
+20261122T070748Z,qwen/qwen3.8-27b,b13,API misuse (String.split),baseline,1,1,True,1,True,True,True,3,599,35.61
+20261122T070748Z,qwen/qwen3.8-27b,b13,API misuse (String.split),baseline,2,1,True,1,True,True,True,3,599,15.65
+20261122T070748Z,qwen/qwen3.8-27b,b13,API misuse (String.split),baseline,3,1,True,1,True,True,True,12,652,35.81
+20261122T070748Z,qwen/qwen3.8-27b,b13,API misuse (String.split),diagnostics,1,1,True,1,True,True,True,2,670,5.9
+20261122T070748Z,qwen/qwen3.8-27b,b13,API misuse (String.split),diagnostics,2,1,True,1,True,True,True,2,670,0.75
+20261122T070748Z,qwen/qwen3.8-27b,b13,API misuse (String.split),diagnostics,3,1,True,1,True,True,True,3,682,0.56
+20261122T070748Z,qwen/qwen3.8-27b,b14,state reset,baseline,1,1,True,1,True,True,True,1,924,0.59
+20261122T070748Z,qwen/qwen3.8-27b,b14,state reset,baseline,2,1,True,1,True,True,True,1,924,5.84
+20261122T070748Z,qwen/qwen3.8-27b,b14,state reset,baseline,3,1,True,1,True,True,True,1,924,0.59
+20261122T070748Z,qwen/qwen3.8-27b,b14,state reset,diagnostics,1,1,True,1,True,True,True,1,1006,0.57
+20261122T070748Z,qwen/qwen3.8-27b,b14,state reset,diagnostics,2,1,True,1,True,True,True,1,1006,15.82
+20261122T070748Z,qwen/qwen3.8-27b,b14,state reset,diagnostics,3,1,True,1,True,True,True,1,1006,16.01
+20261122T070748Z,qwen/qwen3.8-27b,b15,wrong comparison semantics,baseline,1,1,True,1,True,True,True,11,989,6.55
+20261122T070748Z,qwen/qwen3.8-27b,b15,wrong comparison semantics,baseline,2,1,True,1,True,True,True,14,1006,5.77
+20261122T070748Z,qwen/qwen3.8-27b,b15,wrong comparison semantics,baseline,3,1,True,1,True,True,True,11,989,15.83
+20261122T070748Z,qwen/qwen3.8-27b,b15,wrong comparison semantics,diagnostics,1,1,True,1,True,True,True,11,1065,36.27
+20261122T070748Z,qwen/qwen3.8-27b,b15,wrong comparison semantics,diagnostics,2,1,True,1,True,True,True,11,1065,36.07
+20261122T070748Z,qwen/qwen3.8-27b,b15,wrong comparison semantics,diagnostics,3,1,True,1,True,True,True,11,1065,15.89
