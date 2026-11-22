@@ -79,7 +79,8 @@ def _workspace_evaluator(workspace, cls):
 
 
 def cmd_validate(_args):
-    """Each buggy version must compile and fail at least one visible test; references must pass everything."""
+    """Each buggy version must compile and fail its visible test AND at least one hidden test (so the hidden
+    suite detects the fault on its own); references must pass everything."""
     ok = True
     with tempfile.TemporaryDirectory() as tmp:
         ws = maven.make_workspace(Path(tmp) / "ws")
@@ -87,11 +88,13 @@ def cmd_validate(_args):
             evaluate = _workspace_evaluator(ws, bug["class"])
             buggy = evaluate(maven.buggy_source(bug))
             ref = evaluate(maven.reference_source(bug))
-            good = buggy["compiled"] and not maven.passed(buggy, "visible") \
-                and maven.passed(ref, "visible") and maven.passed(ref, "hidden")
+            fails_visible = not maven.passed(buggy, "visible")
+            fails_hidden = not maven.passed(buggy, "hidden")
+            ref_ok = maven.passed(ref, "visible") and maven.passed(ref, "hidden")
+            good = buggy["compiled"] and fails_visible and fails_hidden and ref_ok
             ok &= good
-            print(f"{bug['id']} {bug['class']:<22} buggy fails visible: {not maven.passed(buggy, 'visible')!s:<5} "
-                  f"reference passes visible+hidden: {maven.passed(ref, 'visible') and maven.passed(ref, 'hidden')!s:<5} "
+            print(f"{bug['id']} {bug['class']:<22} buggy fails visible: {fails_visible!s:<5} "
+                  f"buggy fails hidden: {fails_hidden!s:<5} reference passes all: {ref_ok!s:<5} "
                   f"{'OK' if good else 'INVALID'}")
     print("benchmark valid" if ok else "benchmark INVALID")
     return 0 if ok else 1
