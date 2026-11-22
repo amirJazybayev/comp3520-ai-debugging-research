@@ -14,7 +14,7 @@ import urllib.request
 
 
 class ChatClient:
-    def __init__(self, base_url=None, api_key=None, model=None, temperature=0.2, timeout=None, retries=4):
+    def __init__(self, base_url=None, api_key=None, model=None, temperature=0.2, timeout=None, retries=7):
         self.base_url = (base_url or os.environ.get("LLM_BASE_URL", "")).rstrip("/")
         self.api_key = api_key or os.environ.get("LLM_API_KEY", "")
         self.model = model or os.environ.get("LLM_MODEL", "")
@@ -42,7 +42,9 @@ class ChatClient:
             except urllib.error.HTTPError as e:
                 # rate limits and server errors are common on free tiers: back off and retry
                 if e.code in (429, 500, 502, 503, 504) and attempt < self.retries:
-                    time.sleep(min(60, 5 * 2 ** attempt))
+                    wait = min(60, 5 * 2 ** attempt)
+                    print(f"  LLM busy (HTTP {e.code}); retry {attempt + 1}/{self.retries} in {wait}s", flush=True)
+                    time.sleep(wait)
                     continue
                 raise RuntimeError(f"LLM request failed: HTTP {e.code} {e.read()[:500]!r}") from e
             except (TimeoutError, urllib.error.URLError) as e:

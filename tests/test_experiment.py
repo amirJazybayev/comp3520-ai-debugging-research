@@ -65,6 +65,18 @@ def test_hidden_test_source_is_never_sent():
     assert "BulkPricingHiddenTest" not in sent and "belowThresholdHasNoDiscount" not in sent
 
 
+def test_completed_sessions_only_counts_finished_sessions(tmp_path):
+    import json
+    from repair.experiment import completed_sessions
+    log = tmp_path / "attempts.jsonl"
+    assert completed_sessions(log) == set()
+    rows = [{"bug": "b01", "condition": "baseline", "repeat": 1, "attempt": 1},
+            {"bug": "b01", "condition": "baseline", "repeat": 1, "attempt": 2, "final": True},
+            {"bug": "b02", "condition": "diagnostics", "repeat": 2, "attempt": 1, "final": True}]
+    log.write_text("\n".join(json.dumps(r) for r in rows) + "\n", encoding="utf-8")
+    assert completed_sessions(log) == {("b01", "baseline", 1), ("b02", "diagnostics", 2)}
+
+
 def test_changed_lines():
     assert changed_lines("a\nb\nc", "a\nB\nc") == 2
     assert changed_lines("a", "a") == 0

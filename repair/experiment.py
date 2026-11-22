@@ -100,6 +100,19 @@ def cmd_validate(_args):
     return 0 if ok else 1
 
 
+def completed_sessions(log):
+    """(bug, condition, repeat) of sessions fully logged in `log`; a session is only written once it ends."""
+    if not Path(log).exists():
+        return set()
+    done = set()
+    for line in Path(log).read_text(encoding="utf-8").splitlines():
+        if line.strip():
+            rec = json.loads(line)
+            if rec.get("final"):
+                done.add((rec["bug"], rec["condition"], rec["repeat"]))
+    return done
+
+
 def cmd_run(args):
     from .llm import ChatClient
     llm = ChatClient(temperature=args.temperature)
@@ -108,18 +121,35 @@ def cmd_run(args):
     run_id = args.run_id or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     out_dir = Path(args.out) / run_id
     out_dir.mkdir(parents=True, exist_ok=True)
-    (out_dir / "config.json").write_text(json.dumps({
-        "run_id": run_id, "model": llm.model, "base_url": llm.base_url, "temperature": args.temperature,
-        "reasoning_effort": llm.reasoning_effort or None, "timeout_seconds": llm.timeout,
-        "repeats": args.repeats, "max_attempts": args.max_attempts, "bugs": [b["id"] for b in bugs],
-        "conditions": conditions, "started": datetime.now(timezone.utc).isoformat()}, indent=2))
+    config_path = out_dir / "config.json"
+    now = datetime.now(timezone.utc).isoformat()
+    if config_path.exists():
+        # resuming an interrupted run: the settings must match, otherwise the sessions are not comparable
+        config = json.loads(config_path.read_text(encoding="utf-8"))
+        current = {"model": llm.model, "temperature": args.temperature, "max_attempts": args.max_attempts,
+                   "reasoning_effort": llm.reasoning_effort or None}
+        changed = {k: (config.get(k), v) for k, v in current.items() if config.get(k) != v}
+        if changed:
+            raise SystemExit(f"cannot resume run {run_id}: settings differ {changed}")
+        config.setdefault("resumed", []).append(now)
+    else:
+        config = {"run_id": run_id, "model": llm.model, "base_url": llm.base_url, "temperature": args.temperature,
+                  "reasoning_effort": llm.reasoning_effort or None, "timeout_seconds": llm.timeout,
+                  "repeats": args.repeats, "max_attempts": args.max_attempts, "bugs": [b["id"] for b in bugs],
+                  "conditions": conditions, "started": now}
+    config_path.write_text(json.dumps(config, indent=2))
     log = out_dir / "attempts.jsonl"
+    done = completed_sessions(log)
+    if done:
+        print(f"resuming {run_id}: {len(done)} sessions already complete", flush=True)
     with tempfile.TemporaryDirectory() as tmp:
         ws = maven.make_workspace(Path(tmp) / "ws")
         # interleave conditions per bug so drift in the model/API affects both equally
         for repeat in range(1, args.repeats + 1):
             for bug in bugs:
                 for condition in conditions:
+                    if (bug["id"], condition, repeat) in done:
+                        continue
                     started = time.monotonic()
                     evaluate = _workspace_evaluator(ws, bug["class"])
                     records = run_session(bug, condition, llm, evaluate, args.max_attempts)
@@ -154,7 +184,7 @@ def main(argv=None):
     r.add_argument("--max-attempts", type=int, default=3)
     r.add_argument("--temperature", type=float, default=0.2)
     r.add_argument("--out", default="results/runs")
-    r.add_argument("--run-id", default="")
+    r.add_argument("--run-id", default="", help="reuse an existing run id to resume an interrupted run")
     args = p.parse_args(argv)
     return cmd_validate(args) if args.cmd == "validate" else cmd_run(args)
 
