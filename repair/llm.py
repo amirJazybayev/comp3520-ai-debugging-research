@@ -32,7 +32,9 @@ class ChatClient:
         body = json.dumps(payload).encode()
         req = urllib.request.Request(
             self.base_url + "/chat/completions", data=body, method="POST",
-            headers={"Content-Type": "application/json", "Authorization": f"Bearer {self.api_key}"})
+            # Groq's Cloudflare front end rejects the default "Python-urllib" agent (error 1010)
+            headers={"Content-Type": "application/json", "Authorization": f"Bearer {self.api_key}",
+                     "User-Agent": "comp3520-repair-harness/1.0"})
         start = time.monotonic()
         for attempt in range(self.retries + 1):
             try:

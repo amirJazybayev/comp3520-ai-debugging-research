@@ -26,6 +26,7 @@ def test_request_and_response(monkeypatch):
 
     def fake_urlopen(req, timeout):
         seen["url"], seen["body"], seen["auth"] = req.full_url, json.loads(req.data), req.get_header("Authorization")
+        seen["agent"] = req.get_header("User-agent")
         return FakeResponse(ok_body())
 
     monkeypatch.setattr(llm_mod.urllib.request, "urlopen", fake_urlopen)
@@ -34,6 +35,7 @@ def test_request_and_response(monkeypatch):
     assert seen["url"] == "http://x/v1/chat/completions"
     assert seen["body"]["model"] == "m" and seen["body"]["temperature"] == 0.0
     assert seen["auth"] == "Bearer k"
+    assert seen["agent"] == "comp3520-repair-harness/1.0"
     assert out["text"].startswith("```java") and out["prompt_tokens"] == 12 and out["completion_tokens"] == 7
 
 
