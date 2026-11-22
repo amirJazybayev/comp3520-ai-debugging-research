@@ -1,0 +1,19 @@
+{
+  "run_id": "20261122T070611Z",
+  "model": "qwen/qwen3.8-27b",
+  "base_url": "https://api.groq.com/openai/v1",
+  "temperature": 0.2,
+  "reasoning_effort": null,
+  "timeout_seconds": 300.0,
+  "repeats": 1,
+  "max_attempts": 3,
+  "bugs": [
+    "b01",
+    "b04"
+  ],
+  "conditions": [
+    "baseline",
+    "diagnostics"
+  ],
+  "started": "2026-11-22T07:06:11.707324+00:00"
+}
