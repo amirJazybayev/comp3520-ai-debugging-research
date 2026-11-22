@@ -75,7 +75,8 @@ python -m pip install -r requirements-dev.txt
    $env:LLM_MODEL    = "gemini-2.5-flash"
    ```
 
-   Never commit API keys.
+   Never commit API keys. Optional: `LLM_TIMEOUT` (seconds per call, default 300) and `LLM_REASONING_EFFORT`
+   (e.g. `low`, for "thinking" models that are slow to answer). Both are recorded in each run's `config.json`.
 
 4. **Run the experiment** (15 bugs x 2 conditions x 3 repeats, up to 3 attempts per session):
 

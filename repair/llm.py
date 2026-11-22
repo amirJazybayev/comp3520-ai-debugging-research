@@ -14,16 +14,22 @@ import urllib.request
 
 
 class ChatClient:
-    def __init__(self, base_url=None, api_key=None, model=None, temperature=0.2, timeout=180, retries=4):
+    def __init__(self, base_url=None, api_key=None, model=None, temperature=0.2, timeout=None, retries=4):
         self.base_url = (base_url or os.environ.get("LLM_BASE_URL", "")).rstrip("/")
         self.api_key = api_key or os.environ.get("LLM_API_KEY", "")
         self.model = model or os.environ.get("LLM_MODEL", "")
         if not (self.base_url and self.model):
             raise RuntimeError("Set LLM_BASE_URL and LLM_MODEL (and LLM_API_KEY) - see README")
-        self.temperature, self.timeout, self.retries = temperature, timeout, retries
+        self.timeout = timeout or float(os.environ.get("LLM_TIMEOUT", "300"))
+        # optional, e.g. "low": limits hidden "thinking" time on reasoning models
+        self.reasoning_effort = os.environ.get("LLM_REASONING_EFFORT", "")
+        self.temperature, self.retries = temperature, retries
 
     def __call__(self, messages):
-        body = json.dumps({"model": self.model, "messages": messages, "temperature": self.temperature}).encode()
+        payload = {"model": self.model, "messages": messages, "temperature": self.temperature}
+        if self.reasoning_effort:
+            payload["reasoning_effort"] = self.reasoning_effort
+        body = json.dumps(payload).encode()
         req = urllib.request.Request(
             self.base_url + "/chat/completions", data=body, method="POST",
             headers={"Content-Type": "application/json", "Authorization": f"Bearer {self.api_key}"})
@@ -39,6 +45,13 @@ class ChatClient:
                     time.sleep(min(60, 5 * 2 ** attempt))
                     continue
                 raise RuntimeError(f"LLM request failed: HTTP {e.code} {e.read()[:500]!r}") from e
+            except (TimeoutError, urllib.error.URLError) as e:
+                # slow or dropped connections: retry, then give up with a clear message
+                if attempt < self.retries:
+                    print(f"  LLM call failed ({e}); retry {attempt + 1}/{self.retries}", flush=True)
+                    time.sleep(min(60, 5 * 2 ** attempt))
+                    continue
+                raise RuntimeError(f"LLM request failed after {self.retries + 1} tries: {e}") from e
         usage = data.get("usage") or {}
         return {
             "text": data["choices"][0]["message"]["content"] or "",

@@ -107,6 +107,7 @@ def cmd_run(args):
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "config.json").write_text(json.dumps({
         "run_id": run_id, "model": llm.model, "base_url": llm.base_url, "temperature": args.temperature,
+        "reasoning_effort": llm.reasoning_effort or None, "timeout_seconds": llm.timeout,
         "repeats": args.repeats, "max_attempts": args.max_attempts, "bugs": [b["id"] for b in bugs],
         "conditions": conditions, "started": datetime.now(timezone.utc).isoformat()}, indent=2))
     log = out_dir / "attempts.jsonl"
